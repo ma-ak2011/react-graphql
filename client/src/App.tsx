@@ -1,7 +1,7 @@
 import React, { FC, useMemo } from 'react';
 import './App.css';
-import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
-import { ApolloProvider, useQuery } from '@apollo/react-hooks';
+import { ApolloClient, InMemoryCache } from '@apollo/client';
+import { ApolloProvider } from '@apollo/react-hooks';
 import Page from './Page';
 
 const App: FC = () => {

@@ -1,24 +1,14 @@
-import React, { FC, useMemo } from 'react';
-import { useQuery } from '@apollo/react-hooks';
-import { gql } from '@apollo/client';
-import { BooksQuery } from './types/generated/graphql';
+import React, { FC } from 'react';
+import { useBooksQuery } from './types/graphql/graphql';
 
 const Page: FC = () => {
-  const booksQuery = useMemo(
-    () => gql`
-      {
-        books {
-          title
-          author
-        }
-      }
-    `,
-    []
-  );
-  const { loading, error, data } = useQuery<BooksQuery>(booksQuery);
+  const { loading, error, data } = useBooksQuery();
 
   if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error :(</p>;
+  if (error) {
+    console.log(error);
+    return <p>Error :(</p>;
+  }
 
   return (
     <div>
