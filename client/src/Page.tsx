@@ -1,23 +1,63 @@
-import React, { FC } from 'react';
-import { useBooksQuery } from './types/graphql/graphql';
+import React, { FC, useState } from 'react';
+import {
+  useBooksQuery,
+  useAddBookMutation,
+  useDeleteBookMutation,
+} from './types/graphql/graphql';
 
 const Page: FC = () => {
-  const { loading, error, data } = useBooksQuery();
+  const booksQueryResult = useBooksQuery();
+  const [addBookMutation, addBookResult] = useAddBookMutation();
+  const [deleteBookMutation, deleteBookResult] = useDeleteBookMutation();
+  const [title, setTitle] = useState('');
+  const [author, setAuthor] = useState('');
 
-  if (loading) return <p>Loading...</p>;
-  if (error) {
-    console.log(error);
+  if (booksQueryResult.loading) return <p>Loading...</p>;
+  if (booksQueryResult.error) {
+    console.log(booksQueryResult.error);
     return <p>Error :(</p>;
   }
 
   return (
     <div>
-      {data?.books?.map((b) => (
+      {booksQueryResult.data?.books?.map((b) => (
         <React.Fragment key={b?.title}>
-          <div>{b?.title}</div>
-          <div>{b?.author}</div>
+          <div>
+            <input
+              type="button"
+              value="削除"
+              onClick={async () => {
+                await deleteBookMutation({ variables: { id: b.id } });
+                await booksQueryResult.refetch();
+              }}
+            />{' '}
+            id：{b?.id} タイトル：
+            {b?.title} 著者：{b?.author}
+          </div>
         </React.Fragment>
       ))}
+      <div>
+        タイトル：
+        <input
+          type="text"
+          value={title}
+          onChange={(e) => setTitle(e.currentTarget.value)}
+        />
+        著者：
+        <input
+          type="text"
+          value={author}
+          onChange={(e) => setAuthor(e.currentTarget.value)}
+        />
+        <input
+          type="button"
+          onClick={async () => {
+            await addBookMutation({ variables: { title, author } });
+            await booksQueryResult.refetch();
+          }}
+          value="追加"
+        />
+      </div>
     </div>
   );
 };

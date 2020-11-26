@@ -1,8 +1,9 @@
 import { ApolloServer, gql } from 'apollo-server';
-import { Resolvers, QueryResolvers, Book, } from './types/graphql/graphql';
+import { Resolvers, QueryResolvers, Book, MutationResolvers } from './types/graphql/graphql';
 import fse from 'fs-extra';
+import { v4 } from 'uuid';
 
-const books: Book[] = [
+let books: Book[] = [
   {
     id: "1",
     title: "Harry Potter and the Chamber of Secrets",
@@ -23,8 +24,23 @@ const Query: QueryResolvers = {
   books: () => books
 };
 
+const Mutation: MutationResolvers = {
+  addBook: async (parent, args, context) => {
+    const newBook = { id: v4(), title: args.title, author: args.author };
+    await books.push(newBook);
+    return newBook;
+  },
+  deleteBook: async (parent, args, context) => {
+    const deletedBook = books.find((b) => b.id === args.id);
+    if (deletedBook === undefined) return null;
+    books = books.filter((b) => b.id !== args.id);
+    return deletedBook;
+  }
+};
+
 const resolvers: Resolvers = {
   Query,
+  Mutation,
 };
 
 const typeDefs = fse
