@@ -1,0 +1,5 @@
+mutation UpdateBook($id: ID!, $title: String!, $author: String!) {
+    updateBook(id: $id, title: $title, author: $author) {
+      id
+    }
+  }

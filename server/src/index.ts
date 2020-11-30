@@ -35,6 +35,15 @@ const Mutation: MutationResolvers = {
     if (deletedBook === undefined) return null;
     books = books.filter((b) => b.id !== args.id);
     return deletedBook;
+  },
+  updateBook: async (parent, args, context) => {
+    const updatedBook = books.find((b) => b.id === args.id);
+    if (updatedBook === undefined) return null;
+    books = books.map((b) => {
+      if (b.id === args.id) return { ...b, title: args.title, author: args.author };
+      return b;
+    });
+    return updatedBook;
   }
 };
 

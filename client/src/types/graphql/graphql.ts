@@ -35,6 +35,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   addBook: Book;
   deleteBook?: Maybe<Book>;
+  updateBook?: Maybe<Book>;
 };
 
 export type MutationAddBookArgs = {
@@ -44,6 +45,12 @@ export type MutationAddBookArgs = {
 
 export type MutationDeleteBookArgs = {
   id: Scalars['ID'];
+};
+
+export type MutationUpdateBookArgs = {
+  id: Scalars['ID'];
+  title: Scalars['String'];
+  author: Scalars['String'];
 };
 
 export type AddBookMutationVariables = Exact<{
@@ -61,6 +68,16 @@ export type DeleteBookMutationVariables = Exact<{
 
 export type DeleteBookMutation = { __typename?: 'Mutation' } & {
   deleteBook?: Maybe<{ __typename?: 'Book' } & Pick<Book, 'id'>>;
+};
+
+export type UpdateBookMutationVariables = Exact<{
+  id: Scalars['ID'];
+  title: Scalars['String'];
+  author: Scalars['String'];
+}>;
+
+export type UpdateBookMutation = { __typename?: 'Mutation' } & {
+  updateBook?: Maybe<{ __typename?: 'Book' } & Pick<Book, 'id'>>;
 };
 
 export type BookQueryVariables = Exact<{
@@ -175,6 +192,58 @@ export type DeleteBookMutationResult = Apollo.MutationResult<
 export type DeleteBookMutationOptions = Apollo.BaseMutationOptions<
   DeleteBookMutation,
   DeleteBookMutationVariables
+>;
+export const UpdateBookDocument = gql`
+  mutation UpdateBook($id: ID!, $title: String!, $author: String!) {
+    updateBook(id: $id, title: $title, author: $author) {
+      id
+    }
+  }
+`;
+export type UpdateBookMutationFn = Apollo.MutationFunction<
+  UpdateBookMutation,
+  UpdateBookMutationVariables
+>;
+
+/**
+ * __useUpdateBookMutation__
+ *
+ * To run a mutation, you first call `useUpdateBookMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateBookMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateBookMutation, { data, loading, error }] = useUpdateBookMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      title: // value for 'title'
+ *      author: // value for 'author'
+ *   },
+ * });
+ */
+export function useUpdateBookMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateBookMutation,
+    UpdateBookMutationVariables
+  >
+) {
+  return Apollo.useMutation<UpdateBookMutation, UpdateBookMutationVariables>(
+    UpdateBookDocument,
+    baseOptions
+  );
+}
+export type UpdateBookMutationHookResult = ReturnType<
+  typeof useUpdateBookMutation
+>;
+export type UpdateBookMutationResult = Apollo.MutationResult<
+  UpdateBookMutation
+>;
+export type UpdateBookMutationOptions = Apollo.BaseMutationOptions<
+  UpdateBookMutation,
+  UpdateBookMutationVariables
 >;
 export const BookDocument = gql`
   query book($id: ID!) {

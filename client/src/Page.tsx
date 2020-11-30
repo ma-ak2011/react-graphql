@@ -3,12 +3,14 @@ import {
   useBooksQuery,
   useAddBookMutation,
   useDeleteBookMutation,
+  useUpdateBookMutation,
 } from './types/graphql/graphql';
 
 const Page: FC = () => {
   const booksQueryResult = useBooksQuery();
   const [addBookMutation, addBookResult] = useAddBookMutation();
   const [deleteBookMutation, deleteBookResult] = useDeleteBookMutation();
+  const [updateBookMutation, updateBookResult] = useUpdateBookMutation();
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
 
@@ -32,7 +34,7 @@ const Page: FC = () => {
               }}
             />{' '}
             id：{b?.id} タイトル：
-            {b?.title} 著者：{b?.author}
+            <input type="text" value={b?.title} /> 著者：{b?.author}
           </div>
         </React.Fragment>
       ))}
