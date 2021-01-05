@@ -29,11 +29,32 @@ export type QueryBookArgs = {
   id: Scalars['ID'];
 };
 
+export type AddBookResult = {
+  __typename?: 'AddBookResult';
+  success: Scalars['Boolean'];
+  book: Book;
+  messages: Array<Scalars['String']>;
+};
+
+export type DeleteBookResult = {
+  __typename?: 'DeleteBookResult';
+  success: Scalars['Boolean'];
+  id: Scalars['ID'];
+  messages: Array<Scalars['String']>;
+};
+
+export type UpdateBookResult = {
+  __typename?: 'UpdateBookResult';
+  success: Scalars['Boolean'];
+  book: Book;
+  messages: Array<Scalars['String']>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
-  addBook: Book;
-  deleteBook?: Maybe<Book>;
-  updateBook?: Maybe<Book>;
+  addBook: AddBookResult;
+  deleteBook: DeleteBookResult;
+  updateBook: UpdateBookResult;
 };
 
 
@@ -136,8 +157,11 @@ export type ResolversTypes = {
   ID: ResolverTypeWrapper<Scalars['ID']>;
   String: ResolverTypeWrapper<Scalars['String']>;
   Query: ResolverTypeWrapper<{}>;
-  Mutation: ResolverTypeWrapper<{}>;
+  AddBookResult: ResolverTypeWrapper<AddBookResult>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
+  DeleteBookResult: ResolverTypeWrapper<DeleteBookResult>;
+  UpdateBookResult: ResolverTypeWrapper<UpdateBookResult>;
+  Mutation: ResolverTypeWrapper<{}>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -146,8 +170,11 @@ export type ResolversParentTypes = {
   ID: Scalars['ID'];
   String: Scalars['String'];
   Query: {};
-  Mutation: {};
+  AddBookResult: AddBookResult;
   Boolean: Scalars['Boolean'];
+  DeleteBookResult: DeleteBookResult;
+  UpdateBookResult: UpdateBookResult;
+  Mutation: {};
 };
 
 export type BookResolvers<ContextType = any, ParentType extends ResolversParentTypes['Book'] = ResolversParentTypes['Book']> = {
@@ -162,15 +189,39 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   books?: Resolver<Array<ResolversTypes['Book']>, ParentType, ContextType>;
 };
 
+export type AddBookResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['AddBookResult'] = ResolversParentTypes['AddBookResult']> = {
+  success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  book?: Resolver<ResolversTypes['Book'], ParentType, ContextType>;
+  messages?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type DeleteBookResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['DeleteBookResult'] = ResolversParentTypes['DeleteBookResult']> = {
+  success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  messages?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type UpdateBookResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['UpdateBookResult'] = ResolversParentTypes['UpdateBookResult']> = {
+  success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  book?: Resolver<ResolversTypes['Book'], ParentType, ContextType>;
+  messages?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
-  addBook?: Resolver<ResolversTypes['Book'], ParentType, ContextType, RequireFields<MutationAddBookArgs, 'title' | 'author'>>;
-  deleteBook?: Resolver<Maybe<ResolversTypes['Book']>, ParentType, ContextType, RequireFields<MutationDeleteBookArgs, 'id'>>;
-  updateBook?: Resolver<Maybe<ResolversTypes['Book']>, ParentType, ContextType, RequireFields<MutationUpdateBookArgs, 'id' | 'title' | 'author'>>;
+  addBook?: Resolver<ResolversTypes['AddBookResult'], ParentType, ContextType, RequireFields<MutationAddBookArgs, 'title' | 'author'>>;
+  deleteBook?: Resolver<ResolversTypes['DeleteBookResult'], ParentType, ContextType, RequireFields<MutationDeleteBookArgs, 'id'>>;
+  updateBook?: Resolver<ResolversTypes['UpdateBookResult'], ParentType, ContextType, RequireFields<MutationUpdateBookArgs, 'id' | 'title' | 'author'>>;
 };
 
 export type Resolvers<ContextType = any> = {
   Book?: BookResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  AddBookResult?: AddBookResultResolvers<ContextType>;
+  DeleteBookResult?: DeleteBookResultResolvers<ContextType>;
+  UpdateBookResult?: UpdateBookResultResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
 };
 

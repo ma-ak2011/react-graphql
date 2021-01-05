@@ -31,11 +31,32 @@ export type QueryBookArgs = {
   id: Scalars['ID'];
 };
 
+export type AddBookResult = {
+  __typename?: 'AddBookResult';
+  success: Scalars['Boolean'];
+  book: Book;
+  messages: Array<Scalars['String']>;
+};
+
+export type DeleteBookResult = {
+  __typename?: 'DeleteBookResult';
+  success: Scalars['Boolean'];
+  id: Scalars['ID'];
+  messages: Array<Scalars['String']>;
+};
+
+export type UpdateBookResult = {
+  __typename?: 'UpdateBookResult';
+  success: Scalars['Boolean'];
+  book: Book;
+  messages: Array<Scalars['String']>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
-  addBook: Book;
-  deleteBook?: Maybe<Book>;
-  updateBook?: Maybe<Book>;
+  addBook: AddBookResult;
+  deleteBook: DeleteBookResult;
+  updateBook: UpdateBookResult;
 };
 
 export type MutationAddBookArgs = {
@@ -59,7 +80,10 @@ export type AddBookMutationVariables = Exact<{
 }>;
 
 export type AddBookMutation = { __typename?: 'Mutation' } & {
-  addBook: { __typename?: 'Book' } & Pick<Book, 'id' | 'title' | 'author'>;
+  addBook: { __typename?: 'AddBookResult' } & Pick<
+    AddBookResult,
+    'success' | 'messages'
+  > & { book: { __typename?: 'Book' } & Pick<Book, 'id' | 'title' | 'author'> };
 };
 
 export type DeleteBookMutationVariables = Exact<{
@@ -67,7 +91,10 @@ export type DeleteBookMutationVariables = Exact<{
 }>;
 
 export type DeleteBookMutation = { __typename?: 'Mutation' } & {
-  deleteBook?: Maybe<{ __typename?: 'Book' } & Pick<Book, 'id'>>;
+  deleteBook: { __typename?: 'DeleteBookResult' } & Pick<
+    DeleteBookResult,
+    'id'
+  >;
 };
 
 export type UpdateBookMutationVariables = Exact<{
@@ -77,7 +104,10 @@ export type UpdateBookMutationVariables = Exact<{
 }>;
 
 export type UpdateBookMutation = { __typename?: 'Mutation' } & {
-  updateBook?: Maybe<{ __typename?: 'Book' } & Pick<Book, 'id'>>;
+  updateBook: { __typename?: 'UpdateBookResult' } & Pick<
+    UpdateBookResult,
+    'success' | 'messages'
+  > & { book: { __typename?: 'Book' } & Pick<Book, 'id' | 'title' | 'author'> };
 };
 
 export type BookQueryVariables = Exact<{
@@ -97,9 +127,13 @@ export type BooksQuery = { __typename?: 'Query' } & {
 export const AddBookDocument = gql`
   mutation addBook($title: String!, $author: String!) {
     addBook(title: $title, author: $author) {
-      id
-      title
-      author
+      success
+      book {
+        id
+        title
+        author
+      }
+      messages
     }
   }
 `;
@@ -196,7 +230,13 @@ export type DeleteBookMutationOptions = Apollo.BaseMutationOptions<
 export const UpdateBookDocument = gql`
   mutation UpdateBook($id: ID!, $title: String!, $author: String!) {
     updateBook(id: $id, title: $title, author: $author) {
-      id
+      success
+      book {
+        id
+        title
+        author
+      }
+      messages
     }
   }
 `;

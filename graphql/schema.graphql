@@ -2,6 +2,7 @@ type Book {
   id: ID!
   title: String!
   author: String!
+  category: 
 }
 
 type Query {
@@ -9,8 +10,26 @@ type Query {
   books: [Book!]!
 }
 
+type AddBookResult {
+  success: Boolean!
+  book: Book!
+  messages: [String!]!
+}
+
+type DeleteBookResult {
+  success: Boolean!
+  id: ID!
+  messages: [String!]!
+}
+
+type UpdateBookResult {
+  success: Boolean!
+  book: Book!
+  messages: [String!]!
+}
+
 type Mutation {
-  addBook(title: String!, author: String!): Book!
-  deleteBook(id: ID!): Book
-  updateBook(id: ID!, title: String!, author: String!): Book
+  addBook(title: String!, author: String!): AddBookResult!
+  deleteBook(id: ID!): DeleteBookResult!
+  updateBook(id: ID!, title: String!, author: String!): UpdateBookResult!
 }

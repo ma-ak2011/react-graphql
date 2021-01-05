@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-use-before-define
 import React, { CSSProperties } from 'react';
-import { CircularProgress } from '@material-ui/core';
+import { Meter } from 'grommet';
 
 const classes: { [key: string]: CSSProperties } = {
   overlay: {
@@ -21,13 +21,21 @@ const classes: { [key: string]: CSSProperties } = {
     left: 'calc(50% - 20px)',
     opacity: 0.7,
     zIndex: 2001,
+    width: 96,
   },
 };
 
 const LoadingOverlay: React.FC = () => (
   <div style={classes.overlay}>
-    <div>
-      <CircularProgress color="primary" style={classes.circular} />
+    <div style={classes.circular}>
+      <Meter
+        type="circle"
+        thickness="small"
+        background="light-2"
+        size="xsmall"
+        alignSelf="center"
+        values={[{ value: 100, color: 'accent-1' }]}
+      />
     </div>
   </div>
 );

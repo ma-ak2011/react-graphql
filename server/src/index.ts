@@ -26,24 +26,25 @@ const Query: QueryResolvers = {
 
 const Mutation: MutationResolvers = {
   addBook: async (parent, args, context) => {
-    const newBook = { id: v4(), title: args.title, author: args.author };
-    await books.push(newBook);
-    return newBook;
+    const book = { id: v4(), title: args.title, author: args.author };
+    await books.push(book);
+    return { success: true, book, messages: []};
   },
   deleteBook: async (parent, args, context) => {
     const deletedBook = books.find((b) => b.id === args.id);
-    if (deletedBook === undefined) return null;
+    if (deletedBook === undefined) return { success: false, id: args.id, messages: ['server error'] };
     books = books.filter((b) => b.id !== args.id);
-    return deletedBook;
+    return { success: true, id: args.id, messages: [] };
   },
   updateBook: async (parent, args, context) => {
-    const updatedBook = books.find((b) => b.id === args.id);
-    if (updatedBook === undefined) return null;
+    const book = books.find((b) => b.id === args.id);
+    if (book === undefined)
+      return { success: false, book: { id: args.id, author: '', title: '' }, messages: ['server error'] };
     books = books.map((b) => {
       if (b.id === args.id) return { ...b, title: args.title, author: args.author };
       return b;
     });
-    return updatedBook;
+    return { success: true, book, messages: [] };
   }
 };
 

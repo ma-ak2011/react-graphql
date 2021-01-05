@@ -14,12 +14,12 @@
     "typescript": "^4.0.5"
   },
   "scripts": {
-    "dev": "ts-node src/index.ts",
-    "dev:watch": "ts-node-dev --respawn src/index.ts",
+    "start": "ts-node src/index.ts",
+    "start:watch": "ts-node-dev --respawn src/index.ts",
     "clean": "rimraf dist/*",
     "tsc": "tsc",
     "build": "npm-run-all clean tsc",
-    "start": "node ."
+    "node": "node ."
   },
   "dependencies": {
     "@types/fs-extra": "^9.0.4",
